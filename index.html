@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Голосование</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 500px;
+        }
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .vote-options {
+            margin: 20px 0;
+        }
+        .vote-options input[type="radio"] {
+            margin-right: 10px;
+        }
+        .vote-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .vote-button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .success {
+            color: green;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #loginButton {
+            display: block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Голосование</h2>
+    
+    <form id="loginForm" method="POST" action="vote.php">
+        <label for="name">Введите ваше имя:</label>
+        <input type="text" id="name" name="name" required>
+
+        <div class="error" id="nameError"></div>
+        
+        <div id="voteSection" style="display:none;">
+            <h3>1. Считаете ли вы нужным закрыть фракцию WCME?</h3>
+            <div class="vote-options">
+                <label>
+                    <input type="radio" name="wcme_vote" value="yes" required> Да
+                </label><br>
+                <label>
+                    <input type="radio" name="wcme_vote" value="no"> Нет
+                </label>
+            </div>
+            
+            <h3>2. Объясните свой ответ:</h3>
+            <textarea name="reason" rows="4" required></textarea>
+            
+            <button type="submit" class="vote-button">Проголосовать</button>
+        </div>
+
+        <button type="button" class="vote-button" id="loginButton">Войти</button>
+    </form>
+
+    <div class="success" id="thankYouMessage" style="display:none;">
+        Спасибо за ваш голос!
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginButton').addEventListener('click', function() {
+        var name = document.getElementById('name').value;
+        var nameError = document.getElementById('nameError');
+        var loginButton = document.getElementById('loginButton');
+
+        // Эмуляция проверки в списке имен
+        var validNames = ['Анна', 'Иван', 'Петр']; // Пример допустимых имен
+        if (validNames.includes(name)) {
+            document.getElementById('loginForm').action = 'vote.php'; // смена экшна формы
+            document.getElementById('voteSection').style.display = 'block';
+            nameError.innerText = '';
+            loginButton.style.display = 'none'; // скрываем кнопку "Войти"
+        } else {
+            nameError.innerText = 'Имя не найдено в списке!';
+        }
+    });
+</script>
+
+</body>
+</html>
